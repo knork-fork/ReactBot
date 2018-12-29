@@ -1,6 +1,8 @@
 # ReactBot
 Discord bot that sends custom emojis to text channels. 
 
+## Commands
+
 Get a list of commands
 ```ini
 !help
@@ -31,4 +33,25 @@ Get a list of all custom emojis
 Test latency
 ```ini
 !ping
+```
+
+## Installation
+
+Node.js 6.0.0 or newer is required.
+You can check node version with:
+```
+node -v
+```
+
+Install Discord library:
+```
+npm install discord.js
+```
+
+Add bot token and author id to config.json.
+You can setup your bot at: https://discordapp.com/developers
+
+Run bot using:
+```
+node reaccbot.js
 ```
