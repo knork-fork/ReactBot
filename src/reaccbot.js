@@ -1,7 +1,5 @@
 console.log("Running bot...");
 
-const keep_alive = require('./keep_alive.js');
-
 // Load discord.js library
 const Discord = require("discord.js");
 
@@ -13,9 +11,12 @@ const config = require("./config.json");
 
 if (config.isReplit == "true")
 {
-  // https://docs.replit.com/repls/secrets-environment-variables
-  config.token = process.env.discord_token;
-  config.authorid = process.env.author_id;
+	// https://docs.replit.com/repls/secrets-environment-variables
+	config.token = process.env.discord_token;
+	config.authorid = process.env.author_id;
+
+	// Keep alive script for repl.it
+	const keep_alive = require('./keep_alive.js');
 }
 
 // Globals
