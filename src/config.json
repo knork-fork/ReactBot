@@ -2,5 +2,6 @@
   "token"  : "bot_token",
   "prefix" : "!",
   "authorid" : "author_id",
-  "authorOnly" : "false"
+  "authorOnly" : "false",
+  "isReplit" : "false"
 }

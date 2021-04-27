@@ -11,6 +11,13 @@ const client = new Discord.Client();
 // Load config file
 const config = require("./config.json");
 
+if (config.isReplit == "true")
+{
+  // https://docs.replit.com/repls/secrets-environment-variables
+  config.token = process.env.discord_token;
+  config.authorid = process.env.author_id;
+}
+
 // Globals
 var senderUsername;
 var senderAvatar;
