@@ -103,7 +103,7 @@ client.on("message", async message =>
 		var num = args[1];
 		if (!isNaN(num))
 		{
-			// Default to 1 if below 1 or above 5
+			// Clamp between 1 and 5
 			if (num < 1)
 				num = 1;
 			if (num > 5)
