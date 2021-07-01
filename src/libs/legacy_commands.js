@@ -199,6 +199,35 @@ class Commands
                 message.delete();
             }
 
+            // Broadcast message to channel
+            if (command === "broadcast")
+            {
+                if (message.author.id != this.config.authorid)
+                {
+                    this.hooklog(
+                        message.author.username + " was naughty and tried using broadcast in " 
+                        + message.guild.name + "::" + message.channel.name
+                    );
+                }
+
+                var channelId = args[0];
+                var argsArr = args;
+                argsArr.shift();
+                var msg = argsArr.join(" ");
+
+                var channel = await this.client.channels.get(channelId);
+                if (channel == null)
+                {
+                    message.channel.send("Channel not found!");
+                }
+                channel.send(msg);
+
+                this.hooklog(
+                    "Broadcasted from " + message.guild.name + "::" + message.channel.name
+                    + " to " + channel.guild.name + "::" + channel.name
+                );
+            }
+
             // Send an emoji
             if (command === "emote_old")
             {
