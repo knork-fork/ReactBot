@@ -3,5 +3,6 @@
   "prefix" : "!",
   "authorid" : "author_id",
   "authorOnly" : "false",
+  "devChannel" : "",
   "isReplit" : "false"
 }

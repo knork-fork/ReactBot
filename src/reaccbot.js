@@ -14,6 +14,7 @@ if (config.isReplit == "true")
 	// https://docs.replit.com/repls/secrets-environment-variables
 	config.token = process.env.discord_token;
 	config.authorid = process.env.author_id;
+    config.devChannel = process.env.dev_channel;
 
 	// Keep alive script for repl.it
 	const keep_alive = require('./keep_alive.js');
@@ -46,6 +47,12 @@ client.on("message", async message =>
     if (config.authorOnly == "true")
     {
         if (message.author.id != config.authorid) return;
+    }
+
+    // Ignore dev channel
+    if (message.channel.id == config.devChannel)
+    {
+        return;
     }
     
     // Split command and arguments
