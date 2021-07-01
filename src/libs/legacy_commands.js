@@ -10,11 +10,30 @@ async function sendWebhook(message, webhook)
         // No webhook found, die
         message.channel.send("No webhook found in this channel!");
         return;
-    }	
+    }
 
     await webhook.send(messageContent, {
         username: senderUsername,
         avatarURL: senderAvatar,
+    });
+}
+
+async function webhookLog(msg, client, webhookId, webhookToken)
+{
+    if (webhookId == "" || webhookToken == "")
+        return;
+
+    var webhook = await client.fetchWebhook(webhookId, webhookToken);
+
+    if (webhook == null)
+    {
+        // No webhook found, die
+        console.log("No log webhook found");
+        return;
+    }
+
+    await webhook.send(msg, {
+        username: "ReaccBot Logger"
     });
 }
 
@@ -26,10 +45,15 @@ class Commands
         this.config = config;
     }
 
+    hooklog(msg)
+    {
+        webhookLog(msg, this.client, this.config.logWebhookId, this.config.logWebhookToken);
+    }
+
     handleMessageCommands()
     {
         this.client.on("message", async message => 
-        { 
+        {
             // Ignore other bots
             if (message.author.bot) return;
 
@@ -45,6 +69,7 @@ class Commands
             // Ignore dev channel
             if (message.channel.id == this.config.devChannel)
             {
+                this.hooklog("Ignored dev channel");
                 return;
             }
 
@@ -77,6 +102,8 @@ class Commands
                 text += "!ping\n";
                 text += "```";
                 message.channel.send(text);
+
+                this.hooklog("Someone used help command in " + message.guild.name + "::" + message.channel.name);
         	}
 
         	// Send an emoji
@@ -131,6 +158,7 @@ class Commands
                 if (messageContent == null)
                 {
                     message.channel.send("Emoji not found!");
+                    this.hooklog("Emoji not found: " + emote + " in " + message.guild.name + "::" + message.channel.name);
                 }
                 else
                 {	
@@ -152,6 +180,7 @@ class Commands
         			if (webhook == null)
         			{
         				// No webhook found, create one and then send to it
+                        this.hooklog("Webhook created in " + message.guild.name + "::" + message.channel.name);
         				message.channel.createWebhook("ReaccBot Webhook", this.client.user.avatarURL).then(
         					function(webhook) {
         						sendWebhook(message, webhook);
@@ -162,6 +191,7 @@ class Commands
         			{
         				// Send to found webhook
         				sendWebhook(message, webhook);
+                        this.hooklog("Someone used emote command in " + message.guild.name + "::" + message.channel.name);
         			}
                 }
 
@@ -187,6 +217,8 @@ class Commands
 
                 // Delete original message
                 message.delete();
+
+                this.hooklog("Old emote command used in " + message.guild.name + "::" + message.channel.name);
             }
 
             // List all custom emojis in guild
@@ -206,6 +238,8 @@ class Commands
 
                 text += "```";
                 message.channel.send(text);
+
+                this.hooklog("Someone used list command in " + message.guild.name + "::" + message.channel.name);
             }
 
             // Ping tool

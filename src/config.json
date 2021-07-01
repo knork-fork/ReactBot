@@ -4,5 +4,7 @@
   "authorid" : "author_id",
   "authorOnly" : "false",
   "devChannel" : "",
+  "logWebhookId" : "",
+  "logWebhookToken" : "",
   "isReplit" : "false"
 }
