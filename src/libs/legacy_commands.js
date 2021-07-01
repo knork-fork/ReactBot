@@ -138,9 +138,16 @@ class Commands
         			senderUsername = message.author.username;
         			senderAvatar = message.author.avatarURL;
 
-        			// Get any webhook from channel
+        			// Get any webhook from channel owned by this bot itself
                     var webhooks = await message.channel.fetchWebhooks();
-        			var webhook = webhooks.first();
+                    var webhook = null;
+                    var bot_id = this.client.user.id;
+                    webhooks.some(function (web) {
+                        if (web.owner != null && web.owner.id == bot_id) {
+                            webhook = web;
+                            return true; // "true" breaks loop
+                        }
+                    });
 
         			if (webhook == null)
         			{
