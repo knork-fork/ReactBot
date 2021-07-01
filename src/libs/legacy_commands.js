@@ -208,6 +208,7 @@ class Commands
                         message.author.username + " was naughty and tried using broadcast in " 
                         + message.guild.name + "::" + message.channel.name
                     );
+                    return;
                 }
 
                 var channelId = args[0];
